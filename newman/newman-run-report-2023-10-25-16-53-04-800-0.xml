@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="RestfulBooker" tests="8" time="2.384">
+  <testsuite name="Auth / CREATE Token" id="3057e0b4-8e6e-4c24-a26c-7477564cb530" timestamp="2023-10-25T16:53:01.391Z" tests="5" failures="0" errors="0" time="0.918">
+    <testcase name="Status code is 200 OK" time="0.918" classname="RestfulBooker"/>
+    <testcase name="Check respone is not null" time="0.918" classname="RestfulBooker"/>
+    <testcase name="Body contains token" time="0.918" classname="RestfulBooker"/>
+    <testcase name="Check token is not null" time="0.918" classname="RestfulBooker"/>
+    <testcase name="token contains string" time="0.918" classname="RestfulBooker"/>
+  </testsuite>
+  <testsuite name="Booking / GET ALL Booking IDs" id="3292cfad-f34f-422e-99e2-9e337a344f01" timestamp="2023-10-25T16:53:01.391Z" tests="5" failures="0" errors="0" time="0.200">
+    <testcase name="Status code is 200" time="0.200" classname="RestfulBooker"/>
+    <testcase name="Check respone is not null" time="0.200" classname="RestfulBooker"/>
+    <testcase name="Response is an object" time="0.200" classname="RestfulBooker"/>
+    <testcase name="Check token is not null" time="0.200" classname="RestfulBooker"/>
+    <testcase name="Check bookingid is a number" time="0.200" classname="RestfulBooker"/>
+  </testsuite>
+  <testsuite name="Booking / CREATE Booking" id="d2ce8fa3-23e3-4845-995a-f61c8c665661" timestamp="2023-10-25T16:53:01.391Z" tests="23" failures="0" errors="0" time="0.191">
+    <testcase name="Successful POST request" time="0.191" classname="RestfulBooker"/>
+    <testcase name="Status code is 200" time="0.191" classname="RestfulBooker"/>
+    <testcase name="First name is correct" time="0.191" classname="RestfulBooker"/>
+    <testcase name="Last name is correct " time="0.191" classname="RestfulBooker"/>
+    <testcase name="Total price is correct " time="0.191" classname="RestfulBooker"/>
+    <testcase name="Check Deposit paid " time="0.191" classname="RestfulBooker"/>
+    <testcase name="Check in is correct " time="0.191" classname="RestfulBooker"/>
+    <testcase name="Check out is correct " time="0.191" classname="RestfulBooker"/>
+    <testcase name="Additional needs  is correct " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The first name is not equal null " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The Last name is not equal null " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The total price is not equal null " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is not equal null " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The check in is not equal null " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The check out is not equal null " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The additional needs is not equal null " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The first name data is String" time="0.191" classname="RestfulBooker"/>
+    <testcase name="The Last name is String " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The total price is number " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is boolean " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The check in is String " time="0.191" classname="RestfulBooker"/>
+    <testcase name="The check out is is String" time="0.191" classname="RestfulBooker"/>
+    <testcase name="The additional needs is String" time="0.191" classname="RestfulBooker"/>
+  </testsuite>
+  <testsuite name="Booking / GET Details For Booking ID" id="a42328b9-a7f0-44ec-9884-1dff9ef039b7" timestamp="2023-10-25T16:53:01.391Z" tests="16" failures="0" errors="0" time="0.185">
+    <testcase name="Successful GET request" time="0.185" classname="RestfulBooker"/>
+    <testcase name="Status code is 200 OK" time="0.185" classname="RestfulBooker"/>
+    <testcase name="The first name is not equal null " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The Last name is not equal null " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The total price is not equal null " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is not equal null " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The check in is not equal null " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The check out is not equal null " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The additional needs is not equal null " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The first name data is String" time="0.185" classname="RestfulBooker"/>
+    <testcase name="The Last name is String " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The total price is number " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is boolean " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The check in is String " time="0.185" classname="RestfulBooker"/>
+    <testcase name="The check out is is String" time="0.185" classname="RestfulBooker"/>
+    <testcase name="The additional needs is String" time="0.185" classname="RestfulBooker"/>
+  </testsuite>
+  <testsuite name="Booking / UPDATE Booking details" id="d55c754a-d62c-4083-8274-5f98ee3ecd77" timestamp="2023-10-25T16:53:01.391Z" tests="16" failures="0" errors="0" time="0.238">
+    <testcase name="Successful PUT request" time="0.238" classname="RestfulBooker"/>
+    <testcase name="Status code is 200 OK" time="0.238" classname="RestfulBooker"/>
+    <testcase name="The first name is not equal null " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The Last name is not equal null " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The total price is not equal null " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is not equal null " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The check in is not equal null " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The check out is not equal null " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The additional needs is not equal null " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The first name data is String" time="0.238" classname="RestfulBooker"/>
+    <testcase name="The Last name is String " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The total price is number " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is boolean " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The check in is String " time="0.238" classname="RestfulBooker"/>
+    <testcase name="The check out is is String" time="0.238" classname="RestfulBooker"/>
+    <testcase name="The additional needs is String" time="0.238" classname="RestfulBooker"/>
+  </testsuite>
+  <testsuite name="Booking / PARTIAL_UPDATE Booking details" id="2269703e-2a0b-456e-b01d-ac1e519960c8" timestamp="2023-10-25T16:53:01.391Z" tests="18" failures="0" errors="0" time="0.213">
+    <testcase name="Successful PATCH request" time="0.213" classname="RestfulBooker"/>
+    <testcase name="Status code is 200 OK" time="0.213" classname="RestfulBooker"/>
+    <testcase name="First name is updated" time="0.213" classname="RestfulBooker"/>
+    <testcase name="Last name is updated " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The first name is not equal null " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The Last name is not equal null " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The total price is not equal null " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is not equal null " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The check in is not equal null " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The check out is not equal null " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The additional needs is not equal null " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The first name data is String" time="0.213" classname="RestfulBooker"/>
+    <testcase name="The Last name is String " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The total price is number " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The deposit paid is boolean " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The check in is String " time="0.213" classname="RestfulBooker"/>
+    <testcase name="The check out is is String" time="0.213" classname="RestfulBooker"/>
+    <testcase name="The additional needs is String" time="0.213" classname="RestfulBooker"/>
+  </testsuite>
+  <testsuite name="Booking / DELETE Booking" id="b718fe67-1c78-4d35-8163-1cebda727669" timestamp="2023-10-25T16:53:01.391Z" tests="3" failures="0" errors="0" time="0.211">
+    <testcase name="Booking is deleted successfully" time="0.211" classname="RestfulBooker"/>
+    <testcase name="Status code is 201 Created" time="0.211" classname="RestfulBooker"/>
+    <testcase name="Content-Type is Text in header" time="0.211" classname="RestfulBooker"/>
+  </testsuite>
+  <testsuite name="HealthCheck / GET Ping" id="7f986fe8-1e94-46d7-b83e-fcdd41372806" timestamp="2023-10-25T16:53:01.391Z" tests="2" failures="0" errors="0" time="0.228">
+    <testcase name="Successful GET request" time="0.228" classname="RestfulBooker"/>
+    <testcase name="Status code is 201 Created" time="0.228" classname="RestfulBooker"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,895 @@
+{
+	"info": {
+		"_postman_id": "cd497a36-375d-4e6c-9794-f7d1b5aaf75a",
+		"name": "RestfulBooker",
+		"description": "## Testing API documentation for the website \"[Restful-booker](http://restful-booker.herokuapp.com/apidoc/index.html#api-Booking-DeleteBooking)\"\n\nThe tests cover various endpoints and scenarios to ensure the API's functionality and reliability. The project is designed to be easily extendable and maintainable.\n\n#### Tasks\n\n- CREATE Token\n- GET ALL Booking ID\n- CREATE Booking\n- GET Details For Booking ID\n- UPDATE Booking\n- UPDATE Booking Partially\n- DELETE Booking\n- Ping - HealthCheck",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27325402"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "CREATE Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//verify status code is 200 OK\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"//verify response is not null\r",
+									"pm.test(\"Check respone is not null\"),function(){\r",
+									"pm.expect(pm.response.json()).to.not.equal(null)\r",
+									"}\r",
+									"//verify response body contins the word token\r",
+									"pm.test(\"Body contains token\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
+									"}); \r",
+									"//verify token is not null\r",
+									"pm.test(\"Check token is not null\"),function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.token).to.not.equal(null)\r",
+									"}\r",
+									"//verify token contains string\r",
+									"pm.test(\"token contains string\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(typeof jsonData.token).to.eql(\"string\");\r",
+									"    });\r",
+									"\r",
+									"//set token as environmdent variable\r",
+									"pm.environment.set(\"token\", pm.response.json().token)\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}"
+						},
+						"url": "{{baseurl}}/auth"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "GET ALL Booking IDs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verify status code is 200 OK\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"//verify response is not null\r",
+									"pm.test(\"Check respone is not null\"),function(){\r",
+									"pm.expect(pm.response.json()).to.not.equal(null)\r",
+									"}\r",
+									"//verify response is an object\r",
+									"pm.test(\"Response is an object\"),function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(typeof jsonData).to.eql(Object)\r",
+									"}\r",
+									"//verify ID is not null\r",
+									"pm.test(\"Check token is not null\"),function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.bookingid).to.not.equal(null)\r",
+									"}\r",
+									"//verify ID contains numbers only\r",
+									"pm.test(\"Check bookingid is a number\"),function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(typeof jsonData.bookingid).to.eql(Number)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{baseurl}}/booking"
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verify the request method is POST\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.actualMethod = pm.request.method;\r",
+									"    pm.expect(pm.actualMethod).to.eq(\"POST\");\r",
+									"});\r",
+									"\r",
+									"// Verify status code is 200 OK\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// create environment variable for bookingid\r",
+									"pm.environment.set(\"bookingid\", jsonData.bookingid);\r",
+									"\r",
+									"// check the first name\r",
+									"pm.test(\"First name is correct\", function () {\r",
+									"    var firstName = pm.environment.get(\"firstname\");\r",
+									"    pm.expect(jsonData.booking.firstname).to.eql(firstName);\r",
+									"});\r",
+									"\r",
+									"// check the last name\r",
+									"pm.test(\"Last name is correct \", function () {\r",
+									"    var lastName = pm.environment.get(\"lastname\");\r",
+									"    pm.expect(jsonData.booking.lastname).to.eql(lastName);\r",
+									"});\r",
+									"\r",
+									"// check the total price \r",
+									"var totalPrice = pm.environment.get(\"totalprice\");\r",
+									"pm.test(\"Total price is correct \", function () {\r",
+									"    pm.expect(jsonData.booking.totalprice).to.eql(totalPrice);\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid \r",
+									"var depositPaid = pm.environment.get(\"depositpaid\");\r",
+									"\r",
+									"pm.test(\"Check Deposit paid \", function () {\r",
+									"    pm.expect(jsonData.booking.depositpaid).to.eql(depositPaid);\r",
+									"});\r",
+									"\r",
+									"// check the check in \r",
+									"var checkinDate = pm.environment.get(\"checkin\");\r",
+									"pm.test(\"Check in is correct \", function () {\r",
+									"    pm.expect(jsonData.booking.bookingdates.checkin).to.eql(checkinDate);\r",
+									"});\r",
+									"\r",
+									"// check the check out \r",
+									"var checkoutDate = pm.environment.get(\"checkout\");\r",
+									"pm.test(\"Check out is correct \", function () {\r",
+									"    pm.expect(jsonData.booking.bookingdates.checkout).to.eql(checkoutDate);\r",
+									"});\r",
+									"\r",
+									"// check the additional needs \r",
+									"var addetionNeeds = pm.environment.get(\"additionalneeds\");\r",
+									"pm.test(\"Additional needs  is correct \", function () {\r",
+									"    pm.expect(jsonData.booking.additionalneeds ).to.eql(addetionNeeds);\r",
+									"});\r",
+									"\r",
+									"// Verify there is no field in the API response equal null.\r",
+									"// check the first name not equal null\r",
+									"pm.test(\"The first name is not equal null \", function () {\r",
+									"        pm.expect(jsonData.booking.firstname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the last name not equal null\r",
+									"pm.test(\"The Last name is not equal null \", function () {\r",
+									"    pm.expect(jsonData.booking.lastname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the total price not equal null\r",
+									"pm.test(\"The total price is not equal null \", function () {\r",
+									"    pm.expect(jsonData.booking.totalprice).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid not equal null\r",
+									"pm.test(\"The deposit paid is not equal null \", function () {\r",
+									"    pm.expect(jsonData.booking.depositpaid).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check in not equal null\r",
+									"pm.test(\"The check in is not equal null \", function () {\r",
+									"        pm.expect(jsonData.booking.bookingdates.checkin).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check out not equal null\r",
+									"pm.test(\"The check out is not equal null \", function () {\r",
+									"    pm.expect(jsonData.booking.bookingdates.checkout).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the additional needs not equal null\r",
+									"pm.test(\"The additional needs is not equal null \", function () {\r",
+									"    pm.expect(jsonData.booking.additionalneeds ).to.not.eql(\"null\");\r",
+									"});\r",
+									"\r",
+									"// Verify the data type of all fields\r",
+									"// check the first name is string\r",
+									"pm.test(\"The first name data is String\", function () {\r",
+									"        pm.expect(typeof jsonData.booking.firstname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the last name is string\r",
+									"pm.test(\"The Last name is String \", function () {\r",
+									"    pm.expect(typeof jsonData.booking.lastname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the total price is number\r",
+									"pm.test(\"The total price is number \", function () {\r",
+									"    pm.expect(typeof jsonData.booking.totalprice).to.be.eql(\"number\");\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid is Boolean\r",
+									"pm.test(\"The deposit paid is boolean \", function () {\r",
+									"    pm.expect(typeof jsonData.booking.depositpaid).to.be.eql(\"boolean\");\r",
+									"});\r",
+									"\r",
+									"// check the check in String\r",
+									"pm.test(\"The check in is String \", function () {\r",
+									"        pm.expect(typeof jsonData.booking.bookingdates.checkin).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the check out is String\r",
+									"pm.test(\"The check out is is String\", function () {\r",
+									"    pm.expect(typeof jsonData.booking.bookingdates.checkout).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the additional is String\r",
+									"pm.test(\"The additional needs is String\", function () {\r",
+									"    pm.expect(typeof jsonData.booking.additionalneeds ).to.be.eql(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate random first name \r",
+									"    var firstname = [\"Dina\", \"Eman\", \"Ahmed\", \"Alaa\", \"Aya\", \"May\",\"Salma\",\"Alaa\",\"Amany\"]; \r",
+									"    pm.environment.set(\"firstname\",(firstname[_.random(firstname.length-1)]));\r",
+									"\r",
+									"// Generate random last name \r",
+									"    var lastname = [\"Ashraf\", \"Fady\", \"Amany\", \"Mahmoud\", \"Hatem\", \"Ali\",\"Ali\",\"Kamel\",\"Ahmed\"]; \r",
+									"    pm.environment.set(\"lastname\",(lastname[_.random(lastname.length-1)]));\r",
+									"\r",
+									"//Generate Random Total Price\r",
+									"    pm.environment.set(\"totalprice\",_.random(1000,5000));\r",
+									"\r",
+									"//Generate random depositpaid\r",
+									"    pm.environment.set(\"depositpaid\",(_.random(1)===1));\r",
+									"\r",
+									"//Generate a random check-in date\r",
+									"const moment=require(\"moment\");\r",
+									"var checkinDate=moment().add(\"days\",_.random(1,180));\r",
+									"var checkoutDate =moment().add(\"days\",(_.random(180,200)));\r",
+									"pm.environment.set('checkin', checkinDate.format(\"YYYY-MM-DD\"));\r",
+									"pm.environment.set('checkout', checkoutDate.format(\"YYYY-MM-DD\"));\r",
+									"\r",
+									"//random additional\r",
+									"function getRandomBmeels() {\r",
+									"    var additionalneeds_meals = [\"Breakfast\", \"Launch\" , \"Dinner\",null];\r",
+									"    return additionalneeds_meals[_.random(additionalneeds_meals.length-1)];\r",
+									"}\r",
+									"pm.environment.set(\"additionalneeds\",getRandomBmeels())\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"{{firstname}}\",\r\n    \"lastname\": \"{{lastname}}\",\r\n    \"totalprice\": {{totalprice}},\r\n    \"depositpaid\": {{depositpaid}},\r\n    \"bookingdates\": {\r\n        \"checkin\": \"{{checkin}}\",\r\n        \"checkout\": \"{{checkout}}\"\r\n    },\r\n    \"additionalneeds\": \"{{additionalneeds}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/booking"
+					},
+					"response": []
+				},
+				{
+					"name": "GET Details For Booking ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verify the request method is GET\r",
+									"pm.test(\"Successful GET request\", function () {\r",
+									"    pm.actualMethod = pm.request.method;\r",
+									"    pm.expect(pm.actualMethod).to.eq(\"GET\");\r",
+									"});\r",
+									"\r",
+									"// Verify that the status code is 200 OK\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Verify there is no null fields.\r",
+									"// check the first name not equal null\r",
+									"pm.test(\"The first name is not equal null \", function () {\r",
+									"        pm.expect(jsonData.firstname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the last name not equal null\r",
+									"pm.test(\"The Last name is not equal null \", function () {\r",
+									"    pm.expect(jsonData.lastname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the total price not equal null\r",
+									"pm.test(\"The total price is not equal null \", function () {\r",
+									"    pm.expect(jsonData.totalprice).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid not equal null\r",
+									"pm.test(\"The deposit paid is not equal null \", function () {\r",
+									"    pm.expect(jsonData.depositpaid).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check in not equal null\r",
+									"pm.test(\"The check in is not equal null \", function () {\r",
+									"        pm.expect(jsonData.bookingdates.checkin).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check out not equal null\r",
+									"pm.test(\"The check out is not equal null \", function () {\r",
+									"    pm.expect(jsonData.bookingdates.checkout).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the additional needs not equal null\r",
+									"pm.test(\"The additional needs is not equal null \", function () {\r",
+									"    pm.expect(jsonData.additionalneeds ).to.not.eql(\"null\");\r",
+									"});\r",
+									"\r",
+									"// Verify the data type of all fields\r",
+									"// check the first name is string\r",
+									"pm.test(\"The first name data is String\", function () {\r",
+									"        pm.expect(typeof jsonData.firstname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the last name is string\r",
+									"pm.test(\"The Last name is String \", function () {\r",
+									"    pm.expect(typeof jsonData.lastname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the total price is number\r",
+									"pm.test(\"The total price is number \", function () {\r",
+									"    pm.expect(typeof jsonData.totalprice).to.be.eql(\"number\");\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid is Boolean\r",
+									"pm.test(\"The deposit paid is boolean \", function () {\r",
+									"    pm.expect(typeof jsonData.depositpaid).to.be.eql(\"boolean\");\r",
+									"});\r",
+									"\r",
+									"// check the check in String\r",
+									"pm.test(\"The check in is String \", function () {\r",
+									"        pm.expect(typeof jsonData.bookingdates.checkin).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the check out is String\r",
+									"pm.test(\"The check out is is String\", function () {\r",
+									"    pm.expect(typeof jsonData.bookingdates.checkout).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the additional is String\r",
+									"pm.test(\"The additional needs is String\", function () {\r",
+									"    pm.expect(typeof jsonData.additionalneeds ).to.be.eql(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{baseurl}}/booking/{{bookingid}}"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE Booking details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verify the request method is PUT\r",
+									"pm.test(\"Successful PUT request\", function () {\r",
+									"    pm.actualMethod = pm.request.method;\r",
+									"    pm.expect(pm.actualMethod).to.eq(\"PUT\");\r",
+									"});\r",
+									"\r",
+									"// Verify that the status code is 200 OK\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Verify there is no null fields.\r",
+									"// check the first name not equal null\r",
+									"pm.test(\"The first name is not equal null \", function () {\r",
+									"        pm.expect(jsonData.firstname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the last name not equal null\r",
+									"pm.test(\"The Last name is not equal null \", function () {\r",
+									"    pm.expect(jsonData.lastname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the total price not equal null\r",
+									"pm.test(\"The total price is not equal null \", function () {\r",
+									"    pm.expect(jsonData.totalprice).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid not equal null\r",
+									"pm.test(\"The deposit paid is not equal null \", function () {\r",
+									"    pm.expect(jsonData.depositpaid).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check in not equal null\r",
+									"pm.test(\"The check in is not equal null \", function () {\r",
+									"        pm.expect(jsonData.bookingdates.checkin).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check out not equal null\r",
+									"pm.test(\"The check out is not equal null \", function () {\r",
+									"    pm.expect(jsonData.bookingdates.checkout).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the additional needs not equal null\r",
+									"pm.test(\"The additional needs is not equal null \", function () {\r",
+									"    pm.expect(jsonData.additionalneeds).to.not.eql(\"null\");\r",
+									"});\r",
+									"\r",
+									"// Verify the data type of all fields\r",
+									"// check the first name is string\r",
+									"pm.test(\"The first name data is String\", function () {\r",
+									"        pm.expect(typeof jsonData.firstname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the last name is string\r",
+									"pm.test(\"The Last name is String \", function () {\r",
+									"    pm.expect(typeof jsonData.lastname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the total price is number\r",
+									"pm.test(\"The total price is number \", function () {\r",
+									"    pm.expect(typeof jsonData.totalprice).to.be.eql(\"number\");\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid is Boolean\r",
+									"pm.test(\"The deposit paid is boolean \", function () {\r",
+									"    pm.expect(typeof jsonData.depositpaid).to.be.eql(\"boolean\");\r",
+									"});\r",
+									"\r",
+									"// check the check in String\r",
+									"pm.test(\"The check in is String \", function () {\r",
+									"        pm.expect(typeof jsonData.bookingdates.checkin).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the check out is String\r",
+									"pm.test(\"The check out is is String\", function () {\r",
+									"    pm.expect(typeof jsonData.bookingdates.checkout).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the additional is String\r",
+									"pm.test(\"The additional needs is String\", function () {\r",
+									"    pm.expect(typeof jsonData.additionalneeds ).to.be.eql(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password123",
+								"username": "admin"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"James\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/booking/3"
+					},
+					"response": []
+				},
+				{
+					"name": "PARTIAL_UPDATE Booking details",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check Successful PATCH reques\r",
+									"pm.test(\"Successful PATCH request\", function () {\r",
+									"    pm.actualMethod = pm.request.method;\r",
+									"    pm.expect(pm.actualMethod).to.eq(\"PATCH\");\r",
+									"});\r",
+									"\r",
+									"// Verify status code is 200 OK\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// check the first name is updated\r",
+									"pm.test(\"First name is updated\", function () {\r",
+									"    pm.expect(jsonData.firstname).to.eql(\"Dina\");\r",
+									"});\r",
+									"\r",
+									"// check the last name is updated\r",
+									"pm.test(\"Last name is updated \", function () {\r",
+									"    pm.expect(jsonData.lastname).to.eql(\"Ashraf\");\r",
+									"});\r",
+									"\r",
+									"// Verify there is no null fields.\r",
+									"// check the first name not equal null\r",
+									"pm.test(\"The first name is not equal null \", function () {\r",
+									"        pm.expect(jsonData.firstname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the last name not equal null\r",
+									"pm.test(\"The Last name is not equal null \", function () {\r",
+									"    pm.expect(jsonData.lastname).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the total price not equal null\r",
+									"pm.test(\"The total price is not equal null \", function () {\r",
+									"    pm.expect(jsonData.totalprice).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid not equal null\r",
+									"pm.test(\"The deposit paid is not equal null \", function () {\r",
+									"    pm.expect(jsonData.depositpaid).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check in not equal null\r",
+									"pm.test(\"The check in is not equal null \", function () {\r",
+									"        pm.expect(jsonData.bookingdates.checkin).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the check out not equal null\r",
+									"pm.test(\"The check out is not equal null \", function () {\r",
+									"    pm.expect(jsonData.bookingdates.checkout).to.not.eql(null);\r",
+									"});\r",
+									"\r",
+									"// check the additional needs not equal null\r",
+									"pm.test(\"The additional needs is not equal null \", function () {\r",
+									"    pm.expect(jsonData.additionalneeds).to.not.eql(\"null\");\r",
+									"});\r",
+									"\r",
+									"// Verify the data type of all fields\r",
+									"// check the first name is string\r",
+									"pm.test(\"The first name data is String\", function () {\r",
+									"        pm.expect(typeof jsonData.firstname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the last name is string\r",
+									"pm.test(\"The Last name is String \", function () {\r",
+									"    pm.expect(typeof jsonData.lastname).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the total price is number\r",
+									"pm.test(\"The total price is number \", function () {\r",
+									"    pm.expect(typeof jsonData.totalprice).to.be.eql(\"number\");\r",
+									"});\r",
+									"\r",
+									"// check the deposit paid is Boolean\r",
+									"pm.test(\"The deposit paid is boolean \", function () {\r",
+									"    pm.expect(typeof jsonData.depositpaid).to.be.eql(\"boolean\");\r",
+									"});\r",
+									"\r",
+									"// check the check in String\r",
+									"pm.test(\"The check in is String \", function () {\r",
+									"        pm.expect(typeof jsonData.bookingdates.checkin).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the check out is String\r",
+									"pm.test(\"The check out is is String\", function () {\r",
+									"    pm.expect(typeof jsonData.bookingdates.checkout).to.be.eql(\"string\");\r",
+									"});\r",
+									"\r",
+									"// check the additional is String\r",
+									"pm.test(\"The additional needs is String\", function () {\r",
+									"    pm.expect(typeof jsonData.additionalneeds ).to.be.eql(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password123",
+								"username": "admin"
+							}
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Dina\",\r\n    \"lastname\" : \"Ashraf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/booking/{{bookingid}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verify the request method is GET\r",
+									"pm.test(\"Booking is deleted successfully\", function () {\r",
+									"    pm.actualMethod = pm.request.method;\r",
+									"    pm.expect(pm.actualMethod).to.eq(\"DELETE\");\r",
+									"});\r",
+									"\r",
+									"// Verify status code is 201 Created\r",
+									"pm.test(\"Status code is 201 Created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// Verify the API response is Text format\r",
+									"pm.test(\"Content-Type is Text in header\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\",\"text/plain; charset=utf-8\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password123",
+								"username": "admin"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseurl}}/booking/{{bookingid}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "HealthCheck",
+			"item": [
+				{
+					"name": "GET Ping",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verify that the request method is GET\r",
+									"pm.test(\"Successful GET request\", function () {\r",
+									"    pm.actualMethod = pm.request.method;\r",
+									"    pm.expect(pm.actualMethod).to.eq(\"GET\");\r",
+									"});\r",
+									"\r",
+									"// Verify status code is 201 Created\r",
+									"pm.test(\"Status code is 201 Created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/ping"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Generate random first name ",
+					"    var firstname = [\"Dina\", \"Eman\", \"Ahmed\", \"Alaa\", \"Aya\", \"May\",\"Salma\",\"Alaa\",\"Amany\"]; ",
+					"    pm.environment.set(\"firstname\",(firstname[_.random(firstname.length-1)]));",
+					"",
+					"// Generate random last name ",
+					"    var lastname = [\"Ashraf\", \"Fady\", \"Amany\", \"Mahmoud\", \"Hatem\", \"Ali\",\"Ali\",\"Kamel\",\"Ahmed\"]; ",
+					"    pm.environment.set(\"lastname\",(lastname[_.random(lastname.length-1)]));",
+					"",
+					"//Generate Random Total Price",
+					"    pm.environment.set(\"totalprice\",_.random(1000,5000));",
+					"",
+					"//Generate random depositpaid",
+					"    pm.environment.set(\"depositpaid\",(_.random(1)===1));",
+					"",
+					"//Generate a random check-in date",
+					"const moment=require(\"moment\");",
+					"var checkinDate=moment().add(\"days\",_.random(1,180));",
+					"var checkoutDate =moment().add(\"days\",(_.random(180,200)));",
+					"pm.environment.set('checkin', checkinDate.format(\"YYYY-MM-DD\"));",
+					"pm.environment.set('checkout', checkoutDate.format(\"YYYY-MM-DD\"));",
+					"",
+					"//random additional",
+					"function getRandomBmeels() {",
+					"    var additionalneeds_meals = [\"Breakfast\", \"Launch\" , \"Dinner\",null];",
+					"    return additionalneeds_meals[_.random(additionalneeds_meals.length-1)];",
+					"}",
+					"pm.environment.set(\"additionalneeds\",getRandomBmeels())",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
